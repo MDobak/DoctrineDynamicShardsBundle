@@ -15,87 +15,87 @@ use MDobak\DoctrineDynamicShardsBundle\Shard\ShardRegistryInterface;
  */
 class DynamicShardConnection extends PoolingShardConnection implements DynamicShardConnectionInterface
 {
-	/**
-	 * @var array
-	 */
-	private $knownShards = [];
+    /**
+     * @var array
+     */
+    private $knownShards = [];
 
-	/**
-	 * @var ShardRegistryInterface
-	 */
-	private $shardRegistry;
+    /**
+     * @var ShardRegistryInterface
+     */
+    private $shardRegistry;
 
-	/**
-	 * @var array
-	 */
-	private $globalParams;
+    /**
+     * @var array
+     */
+    private $globalParams;
 
-	/**
-	 * @param array                         $params
-	 * @param \Doctrine\DBAL\Driver         $driver
-	 * @param \Doctrine\DBAL\Configuration  $config
-	 * @param \Doctrine\Common\EventManager $eventManager
-	 *
-	 * @throws \InvalidArgumentException
-	 */
-	public function __construct(array $params, Driver $driver, Configuration $config = null, EventManager $eventManager = null)
-	{
-		$params['shards'] = $params['shards'] ?? [];
-		$params['global'] = $params['global'] ??
-			[
-				'user'                => $params['user'],
-				'password'            => $params['password'],
-				'host'                => $params['host'],
-				'port'                => $params['port'],
-				'defaultTableOptions' => $params['defaultTableOptions'],
-			]
-		;
+    /**
+     * @param array                         $params
+     * @param \Doctrine\DBAL\Driver         $driver
+     * @param \Doctrine\DBAL\Configuration  $config
+     * @param \Doctrine\Common\EventManager $eventManager
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(array $params, Driver $driver, Configuration $config = null, EventManager $eventManager = null)
+    {
+        $params['shards'] = $params['shards'] ?? [];
+        $params['global'] = $params['global'] ??
+            [
+                'user'                => $params['user'],
+                'password'            => $params['password'],
+                'host'                => $params['host'],
+                'port'                => $params['port'],
+                'defaultTableOptions' => $params['defaultTableOptions'],
+            ]
+        ;
 
-		if (isset($params['driverOptions']['shard_registry'])) {
-		    $this->shardRegistry = $params['driverOptions']['shard_registry'];
+        if (isset($params['driverOptions']['shard_registry'])) {
+            $this->shardRegistry = $params['driverOptions']['shard_registry'];
         }
 
-		parent::__construct($params, $driver, $config, $eventManager);
+        parent::__construct($params, $driver, $config, $eventManager);
 
-		$this->globalParams = array_merge($params, $params['global']);
+        $this->globalParams = array_merge($params, $params['global']);
 
         $this->knownShards = [0]; // Shard "0" maps to "global" config on PoolingShardConnection.
-		foreach ($params['shards'] as $shard) {
-			$this->knownShards[] = $shard['id'];
-		}
-	}
+        foreach ($params['shards'] as $shard) {
+            $this->knownShards[] = $shard['id'];
+        }
+    }
 
-	/**
-	 * Connects to a specific connection.
-	 *
-	 * @param string $shardId
-	 *
-	 * @return \Doctrine\DBAL\Driver\Connection
-	 */
-	protected function connectTo($shardId)
-	{
-		if (in_array($shardId, $this->knownShards, true)) {
-			return parent::connectTo($shardId);
-		}
+    /**
+     * Connects to a specific connection.
+     *
+     * @param string $shardId
+     *
+     * @return \Doctrine\DBAL\Driver\Connection
+     */
+    protected function connectTo($shardId)
+    {
+        if (in_array($shardId, $this->knownShards, true)) {
+            return parent::connectTo($shardId);
+        }
 
-		$params = $this->globalParams;
-		$shard  = $this->shardRegistry->getShard($shardId);
+        $params = $this->globalParams;
+        $shard  = $this->shardRegistry->getShard($shardId);
 
-		$connectionParams = array_merge(
-			$params,
-			[
-				'user'     => $shard->getUsername(),
-				'password' => $shard->getPassword(),
-				'host'     => $shard->getHost(),
-				'port'     => $shard->getPassword(),
-				'charset'  => $shard->getCharset(),
-			]
-		);
+        $connectionParams = array_merge(
+            $params,
+            [
+                'user'     => $shard->getUsername(),
+                'password' => $shard->getPassword(),
+                'host'     => $shard->getHost(),
+                'port'     => $shard->getPassword(),
+                'charset'  => $shard->getCharset(),
+            ]
+        );
 
-		$user          = isset($connectionParams['user'])     ? $connectionParams['user']     : null;
-		$password      = isset($connectionParams['password']) ? $connectionParams['password'] : null;
-		$driverOptions = isset($params['driverOptions'])      ? $params['driverOptions']      : [];
+        $user          = isset($connectionParams['user'])     ? $connectionParams['user']     : null;
+        $password      = isset($connectionParams['password']) ? $connectionParams['password'] : null;
+        $driverOptions = isset($params['driverOptions'])      ? $params['driverOptions']      : [];
 
-		return $this->_driver->connect($connectionParams, $user, $password, $driverOptions);
-	}
+        return $this->_driver->connect($connectionParams, $user, $password, $driverOptions);
+    }
 }

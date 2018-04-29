@@ -14,26 +14,26 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ConnectionFactoryCompilerPass implements CompilerPassInterface
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(ContainerBuilder $container)
-	{
-	    $defaultShardRegistryService = new Reference($container->getParameter('mdobak.default_shard_registry_service'));
-	    $shardRegistryServices       = [];
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+        $defaultShardRegistryService = new Reference($container->getParameter('mdobak.default_shard_registry_service'));
+        $shardRegistryServices       = [];
 
-	    foreach ($container->getParameter('mdobak.connections') as $connection) {
-	        $shardRegistryService = $connection['shard_registry_service'];
-	        if ($shardRegistryService) {
-	            $shardRegistryServices[$shardRegistryService] = new Reference($shardRegistryService);
+        foreach ($container->getParameter('mdobak.connections') as $connection) {
+            $shardRegistryService = $connection['shard_registry_service'];
+            if ($shardRegistryService) {
+                $shardRegistryServices[$shardRegistryService] = new Reference($shardRegistryService);
             }
         }
 
-		$container
+        $container
             ->findDefinition('doctrine.dbal.connection_factory')
             ->setClass(ConnectionFactory::class)
             ->addArgument($defaultShardRegistryService)
             ->addArgument($shardRegistryServices)
         ;
-	}
+    }
 }

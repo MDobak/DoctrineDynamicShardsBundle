@@ -61,11 +61,11 @@ class MDobakDoctrineDynamicShardsExtension extends Extension implements PrependE
         }
     }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getAlias()
-	{
-		return 'mdobak_doctrine_dynamic_shards';
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getAlias()
+    {
+        return 'mdobak_doctrine_dynamic_shards';
+    }
 }

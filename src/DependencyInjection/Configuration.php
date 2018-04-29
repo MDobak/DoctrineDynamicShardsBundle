@@ -21,11 +21,11 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('mdobak_doctrine_dynamic_shards');
 
         $rootNode
-	        ->children()
-	            ->scalarNode('default_shard_registry_service')
-	                ->treatNullLike('mdobak.doctrine_dynamic_shard.shard.shard_registry')
-	                ->defaultValue('mdobak.doctrine_dynamic_shard.shard.shard_registry')
-	            ->end()
+            ->children()
+                ->scalarNode('default_shard_registry_service')
+                    ->treatNullLike('mdobak.doctrine_dynamic_shard.shard.shard_registry')
+                    ->defaultValue('mdobak.doctrine_dynamic_shard.shard.shard_registry')
+                ->end()
                 ->arrayNode('connections')
                     ->useAttributeAsKey('name')
                     ->arrayPrototype()
@@ -36,7 +36,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-	        ->end()
+            ->end()
         ;
 
         return $treeBuilder;

@@ -9,13 +9,13 @@ namespace MDobak\DoctrineDynamicShardsBundle;
  */
 final class Events
 {
-	/**
-	 * Private constructor. This class cannot be instantiated.
-	 */
-	private function __construct()
-	{
-	}
+    /**
+     * Private constructor. This class cannot be instantiated.
+     */
+    private function __construct()
+    {
+    }
 
-	const DYNAMIC_SHARD_PRE_CONNECT  = 'mdobak.dynamic_shard_pre_connect';
-	const DYNAMIC_SHARD_POST_CONNECT = 'mdobak.dynamic_shard_post_connect';
+    const DYNAMIC_SHARD_PRE_CONNECT  = 'mdobak.dynamic_shard_pre_connect';
+    const DYNAMIC_SHARD_POST_CONNECT = 'mdobak.dynamic_shard_post_connect';
 }
