@@ -1,0 +1,41 @@
+{
+    "name": "mdobak/doctrine-dynamic-shards-bundle",
+    "type": "symfony-bundle",
+    "description": "Dynamic shards for Doctrine DBAL",
+    "keywords": [
+        "doctrine",
+        "doctrine2",
+        "dbal",
+        "symfony",
+        "symfony2",
+        "symfony3",
+        "symfony4",
+        "bundle",
+        "shard",
+        "sharding"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michał Dobaczewski",
+            "email": "mdobak@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "doctrine/doctrine-bundle": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MDobak\\DoctrineDynamicShardsBundle\\": "src"
+        },
+        "exclude-from-classmap": [
+            "src/Tests"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mdobak\\AutocompleteWidgetBundle\\Tests\\": "src/Tests"
+        }
+    }
+}
