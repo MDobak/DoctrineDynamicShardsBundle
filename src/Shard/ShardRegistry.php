@@ -17,21 +17,21 @@ class ShardRegistry implements ShardRegistryInterface
     protected $shards = [];
 
     /**
-     * @param       $shardId
+     * @param int   $shardId
      * @param array $params
      */
-    public function addShard($shardId, array $params)
+    public function addShard(int $shardId, array $params)
     {
         $this->shards[$shardId] = $params;
     }
 
     /**
-     * @param int|string $shardId
+     * @param int $shardId
      *
      * @return array
      * @throws InvalidShardIdException
      */
-    public function getShard($shardId): array
+    public function getShard(int $shardId): array
     {
         if (!isset($this->shards[$shardId])) {
             throw InvalidShardIdException::create($shardId);

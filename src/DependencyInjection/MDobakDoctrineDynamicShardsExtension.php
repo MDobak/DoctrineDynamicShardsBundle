@@ -43,15 +43,26 @@ class MDobakDoctrineDynamicShardsExtension extends Extension implements PrependE
                 switch ($name) {
                     case 'doctrine':
                         $doctrineConfig = ['dbal' => ['connections' => []]];
+
                         foreach ($config['connections'] as $connectionName => $connectionConfig) {
                             $doctrineConfig['dbal']['connections'][$connectionName] = [
                                 'wrapper_class' => DynamicShardConnection::class,
-                                'shard_choser'  => MultiTenantShardChoser::class,
                                 'options'       => [
                                     'shard_registry'         => null,
                                     'shard_registry_service' => $connectionConfig['shard_registry_service']
                                 ]
                             ];
+
+                            if (isset($connectionConfig['shard_chooser_service'])) {
+                                $doctrineConfig['dbal']['connections'][$connectionName]['shard_choser_service']
+                                    = $connectionConfig['shard_chooser_service'];
+                            } elseif (isset($connectionConfig['shard_chooser'])) {
+                                $doctrineConfig['dbal']['connections'][$connectionName]['shard_choser']
+                                    = $connectionConfig['shard_chooser'];
+                            } else {
+                                $doctrineConfig['dbal']['connections'][$connectionName]['shard_choser']
+                                    = MultiTenantShardChoser::class;
+                            }
                         }
 
                         $container->prependExtensionConfig($name, $doctrineConfig);

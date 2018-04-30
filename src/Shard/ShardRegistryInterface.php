@@ -10,9 +10,9 @@ namespace MDobak\DoctrineDynamicShardsBundle\Shard;
 interface ShardRegistryInterface
 {
     /**
-     * @param string|int $shardId
+     * @param int $shardId
      *
      * @return array
      */
-    public function getShard($shardId): array;
+    public function getShard(int $shardId): array;
 }
