@@ -23,19 +23,24 @@
     ],
     "require": {
         "php": "^7.0",
-        "doctrine/doctrine-bundle": "^1.0"
+        "doctrine/doctrine-bundle": "^1.0",
+        "doctrine/doctrine-cache-bundle": "^1.0",
+        "doctrine/orm": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7|^5.0"
     },
     "autoload": {
         "psr-4": {
             "MDobak\\DoctrineDynamicShardsBundle\\": "src"
         },
         "exclude-from-classmap": [
-            "src/Tests"
+            "tests"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Mdobak\\AutocompleteWidgetBundle\\Tests\\": "src/Tests"
+            "MDobak\\DoctrineDynamicShardsBundle\\Tests\\": "tests"
         }
     }
 }

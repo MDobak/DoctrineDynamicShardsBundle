@@ -1,0 +1,28 @@
+framework:
+    secret: test
+    session:
+        storage_id: session.storage.mock_file
+
+doctrine:
+    dbal:
+        connections:
+            default:
+                driver: pdo_sqlite
+                path:   "%kernel.cache_dir%/0.db"
+
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+
+mdobak_doctrine_dynamic_shards:
+    default_shard_registry_service: custom_shard_registry
+    connections:
+        default:
+
+services:
+    custom_shard_registry:
+        class: \MDobak\DoctrineDynamicShardsBundle\Shard\ShardRegistry
+        calls:
+            - ['addShard', [1, {path: "%kernel.cache_dir%/1.db"}]]
+            - ['addShard', [2, {path: "%kernel.cache_dir%/2.db"}]]
