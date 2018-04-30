@@ -12,7 +12,7 @@ interface ShardRegistryInterface
     /**
      * @param string|int $shardId
      *
-     * @return Configuration
+     * @return array
      */
-    public function getShard($shardId): Configuration;
+    public function getShard($shardId): array;
 }

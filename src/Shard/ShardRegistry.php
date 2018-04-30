@@ -12,27 +12,26 @@ use MDobak\DoctrineDynamicShardsBundle\Exception\InvalidShardIdException;
 class ShardRegistry implements ShardRegistryInterface
 {
     /**
-     * @var Configuration[]
+     * @var array[]
      */
     protected $shards = [];
 
     /**
-     * @param string|int    $shardId
-     * @param Configuration $configuration
+     * @param       $shardId
+     * @param array $params
      */
-    public function addShard($shardId, Configuration $configuration)
+    public function addShard($shardId, array $params)
     {
-        $this->shards[$shardId] = $configuration;
+        $this->shards[$shardId] = $params;
     }
 
     /**
      * @param int|string $shardId
      *
-     * @return Configuration
-     *
+     * @return array
      * @throws InvalidShardIdException
      */
-    public function getShard($shardId): Configuration
+    public function getShard($shardId): array
     {
         if (!isset($this->shards[$shardId])) {
             throw InvalidShardIdException::create($shardId);

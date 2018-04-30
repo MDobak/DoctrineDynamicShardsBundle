@@ -81,16 +81,7 @@ class DynamicShardConnection extends PoolingShardConnection implements DynamicSh
         $params = $this->globalParams;
         $shard  = $this->shardRegistry->getShard($shardId);
 
-        $connectionParams = array_merge(
-            $params,
-            [
-                'user'     => $shard->getUsername(),
-                'password' => $shard->getPassword(),
-                'host'     => $shard->getHost(),
-                'port'     => $shard->getPassword(),
-                'charset'  => $shard->getCharset(),
-            ]
-        );
+        $connectionParams = array_merge($params, $shard);
 
         $user          = isset($connectionParams['user'])     ? $connectionParams['user']     : null;
         $password      = isset($connectionParams['password']) ? $connectionParams['password'] : null;
