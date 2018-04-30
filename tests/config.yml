@@ -22,7 +22,7 @@ mdobak_doctrine_dynamic_shards:
 
 services:
     custom_shard_registry:
-        class: \MDobak\DoctrineDynamicShardsBundle\Shard\ShardRegistry
+        class: MDobak\DoctrineDynamicShardsBundle\Shard\ShardRegistry
         calls:
             - ['addShard', [1, {path: "%kernel.cache_dir%/1.db"}]]
             - ['addShard', [2, {path: "%kernel.cache_dir%/2.db"}]]

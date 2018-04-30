@@ -41,15 +41,7 @@ class DynamicShardConnection extends PoolingShardConnection implements DynamicSh
     public function __construct(array $params, Driver $driver, Configuration $config = null, EventManager $eventManager = null)
     {
         $params['shards'] = $params['shards'] ?? [];
-        $params['global'] = $params['global'] ??
-            [
-                'user'                => $params['user'],
-                'password'            => $params['password'],
-                'host'                => $params['host'],
-                'port'                => $params['port'],
-                'defaultTableOptions' => $params['defaultTableOptions'],
-            ]
-        ;
+        $params['global'] = $params['global'] ?? $params;
 
         if (isset($params['driverOptions']['shard_registry'])) {
             $this->shardRegistry = $params['driverOptions']['shard_registry'];

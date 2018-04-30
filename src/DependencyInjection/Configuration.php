@@ -28,7 +28,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('connections')
                     ->useAttributeAsKey('name')
-                    ->arrayPrototype()
+                    ->prototype('array')
                         ->children()
                             ->scalarNode('shard_registry_service')
                                 ->defaultNull()
