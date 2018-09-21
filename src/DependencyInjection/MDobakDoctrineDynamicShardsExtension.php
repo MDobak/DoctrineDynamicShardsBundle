@@ -49,7 +49,7 @@ class MDobakDoctrineDynamicShardsExtension extends Extension implements PrependE
                                 'wrapper_class' => DynamicShardConnection::class,
                                 'options'       => [
                                     'shard_registry'         => null,
-                                    'shard_registry_service' => $connectionConfig['shard_registry_service']
+                                    'shard_registry_service' => $connectionConfig['shard_registry_service'] ?? null
                                 ]
                             ];
 

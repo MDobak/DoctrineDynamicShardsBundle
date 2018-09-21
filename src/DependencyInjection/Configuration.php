@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->children()
                             ->scalarNode('shard_registry_service')
-                                ->defaultNull()
+                                ->defaultValue('mdobak.doctrine_dynamic_shard.shard.shard_registry')
                             ->end()
                             ->scalarNode('shard_chooser_service')
                                 ->defaultNull()
