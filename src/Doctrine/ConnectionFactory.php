@@ -51,7 +51,7 @@ class ConnectionFactory extends \Doctrine\Bundle\DoctrineBundle\ConnectionFactor
     public function createConnection(array $params, Configuration $config = null, EventManager $eventManager = null, array $mappingTypes = [])
     {
         $shardRegistry            = null;
-        $shardRegistryServiceName = $params['driverOptions']['shard_registry_service'];
+        $shardRegistryServiceName = $params['driverOptions']['shard_registry_service'] ?? '';
 
         if ($shardRegistryServiceName) {
             $shardRegistry = $this->shardRegistryServices[$shardRegistryServiceName];

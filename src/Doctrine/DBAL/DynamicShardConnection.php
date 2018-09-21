@@ -58,6 +58,14 @@ class DynamicShardConnection extends PoolingShardConnection implements DynamicSh
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getParams()
+    {
+        return isset($this->knownShards[$this->getActiveShardId()]) ? $this->getParams() : $this->getParamsForShard($this->getActiveShardId());
+    }
+
+    /**
      * Connects to a specific connection.
      *
      * @param string $shardId
@@ -70,15 +78,25 @@ class DynamicShardConnection extends PoolingShardConnection implements DynamicSh
             return parent::connectTo($shardId);
         }
 
-        $params = $this->globalParams;
-        $shard  = $this->shardRegistry->getShard($shardId);
-
-        $connectionParams = array_merge($params, $shard);
+        $connectionParams = $this->getParamsForShard($shardId);
 
         $user          = isset($connectionParams['user'])     ? $connectionParams['user']     : null;
         $password      = isset($connectionParams['password']) ? $connectionParams['password'] : null;
         $driverOptions = isset($params['driverOptions'])      ? $params['driverOptions']      : [];
 
         return $this->_driver->connect($connectionParams, $user, $password, $driverOptions);
+    }
+
+    /**
+     * @param $shardId
+     *
+     * @return array
+     */
+    protected function getParamsForShard($shardId): array
+    {
+        $params = $this->globalParams;
+        $shard  = $this->shardRegistry->getShard($shardId);
+
+        return array_merge($params, $shard);
     }
 }
